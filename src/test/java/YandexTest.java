@@ -6,24 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
 public class YandexTest {
-//    @Test
-//    @DisplayName("Проверка цвета иконки на странице выдачи")
-//    public void openYandex(){
-//        Selenide.open("https://ya.ru/");
-//        SelenideElement search = Selenide.$x(".//*[@placeholder=\"Найдётся всё\"]");
-//        search.sendKeys("Selenide maven зависимость");
-//        search.sendKeys(Keys.ENTER);
-//        SelenideElement defaultBrowserWindowClose = Selenide.$x(".//*[@class=\"Button Distribution-Button Distribution-ButtonClose Distribution-ButtonClose_view_button Button_view_default Button_size_m\"]");
-//        defaultBrowserWindowClose.click();
-//        SelenideElement iconRed = Selenide.$x("//*[@id=\"HeaderDesktop-PPJApIZ\"]//*[@fill=\"#F8604A\"]");
-//        String colorExp = "F8604A";
-//        String colorActual = iconRed.toString();
-//        Assertions.assertTrue(colorActual.contains(colorExp), "Цвет иконки отличается от красного");
-//
-//    }
 
     @Test
-    @DisplayName("Проверка цвета иконки на странице выдачи")
+    @DisplayName("Проверка цвета иконки на странице выдачи красная(цвет = \"F8604A\")")
     public void openYandex1(){
         YandexPage yandexPage = new YandexPage();
         yandexPage.openPage();
@@ -31,12 +16,25 @@ public class YandexTest {
         PopupDefaultBrowser popup = new PopupDefaultBrowser();
         popup.closePopup();
         ResultPage resultPage = new ResultPage();
-        String colorExp = "F8604A";
-        Assertions.assertTrue(resultPage.getMainPageButtonSelectorText().contains(colorExp), "Цвет иконки отличается от красного");
-
-
-
+        Assertions.assertTrue(resultPage.getMainPageButtonSelectorText().contains("F8604A"), "Цвет иконки отличается от красного");
     }
+
+    /*
+     @Test
+    @DisplayName("Проверка цвета иконки на странице выдачи")
+    public void openYandex(){
+        Selenide.open("https://ya.ru/");
+        SelenideElement search = Selenide.$x(".//*[@placeholder=\"Найдётся всё\"]");
+        search.sendKeys("Selenide maven зависимость");
+        search.sendKeys(Keys.ENTER);
+        SelenideElement defaultBrowserWindowClose = Selenide.$x(".//*[@class=\"Button Distribution-Button Distribution-ButtonClose Distribution-ButtonClose_view_button Button_view_default Button_size_m\"]");
+        defaultBrowserWindowClose.click();
+        SelenideElement iconRed = Selenide.$x("//*[@id=\"HeaderDesktop-PPJApIZ\"]//*[@fill=\"#F8604A\"]");
+        String colorExp = "F8604A";
+        String colorActual = iconRed.toString();
+        Assertions.assertTrue(colorActual.contains(colorExp), "Цвет иконки отличается от красного");
+
+    }*/
 
 
 }
