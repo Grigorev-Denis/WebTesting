@@ -8,7 +8,7 @@ import static com.codeborne.selenide.Selenide.page;
 
 public class ResultPage {
 private SelenideElement mainPageButton = Selenide.$x("//*[@id=\"HeaderDesktop-PPJApIZ\"]//*[@fill=\"#F8604A\"]");
-    @Step("Получить данные о кнопке 'Главный экран'")
+    @Step("Получить данные о кнопке \"Главный экран\"")
 public String getMainPageButtonSelectorText(){
      return mainPageButton.toString();
  }

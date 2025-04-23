@@ -9,7 +9,7 @@ public class YandexPage {
     private final String URL = "https://ya.ru/";
     private String searchField = ".//*[@placeholder=\"Найдётся всё\"]";
 
-    @Step("Открыть главную страницу поиска")
+    @Step("Открыть главную страницу поиска Яндекс")
     public void openPage(){
         Selenide.open(URL);
     }

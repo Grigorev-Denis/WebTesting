@@ -18,7 +18,7 @@ public class YandexTest {
 
     /*
      @Test
-    @DisplayName("Проверка цвета иконки на странице выдачи")
+
     public void openYandex(){
         Selenide.open("https://ya.ru/");
         SelenideElement search = Selenide.$x(".//*[@placeholder=\"Найдётся всё\"]");
