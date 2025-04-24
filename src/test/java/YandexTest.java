@@ -1,13 +1,26 @@
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Keys;
+import pages.ResultPage;
+import pages.YandexPage;
 
 public class YandexTest {
+
     @Test
-    @DisplayName("Проверка цвета иконки на странице выдачи")
+    @DisplayName("Проверка цвета иконки на странице выдачи красная(цвет = \"F8604A\")")
+    public void openYandex1(){
+        YandexPage yandexPage = new YandexPage();
+        yandexPage.openPage();
+        yandexPage.search("проверка теста");
+        ResultPage resultPage = new ResultPage();
+        resultPage.closePopup();
+        String actColor = resultPage.button().getMainPageButtonSelectorText();
+        Assertions.assertTrue(actColor.contains("F8604A"), "Цвет иконки отличается от красного");
+    }
+
+    /*
+     @Test
+
     public void openYandex(){
         Selenide.open("https://ya.ru/");
         SelenideElement search = Selenide.$x(".//*[@placeholder=\"Найдётся всё\"]");
@@ -20,6 +33,7 @@ public class YandexTest {
         String colorActual = iconRed.toString();
         Assertions.assertTrue(colorActual.contains(colorExp), "Цвет иконки отличается от красного");
 
-    }
+    }*/
+
 
 }
