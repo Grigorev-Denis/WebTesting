@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import pages.ResultPage;
+import pages.YandexPage;
 
 public class YandexTest {
 
@@ -10,10 +12,10 @@ public class YandexTest {
         YandexPage yandexPage = new YandexPage();
         yandexPage.openPage();
         yandexPage.search("проверка теста");
-        PopupDefaultBrowser popup = new PopupDefaultBrowser();
-        popup.closePopup();
         ResultPage resultPage = new ResultPage();
-        Assertions.assertTrue(resultPage.getMainPageButtonSelectorText().contains("F8604A"), "Цвет иконки отличается от красного");
+        resultPage.closePopup();
+        String actColor = resultPage.button().getMainPageButtonSelectorText();
+        Assertions.assertTrue(actColor.contains("F8604A"), "Цвет иконки отличается от красного");
     }
 
     /*
