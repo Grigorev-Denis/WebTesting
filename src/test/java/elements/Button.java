@@ -27,10 +27,6 @@ public class Button {
         buttonSelector.shouldBe(Condition.visible, Duration.ofSeconds(4)).click();
         return this;
     }
-    @Step("Получить данные о кнопке \"Главный экран\"")
-    public String getMainPageButtonSelectorText(){
-        return buttonSelector.toString();
-    }
 
     @Step("Получить цвет кнопки")
     public String getColorOfButton(){
