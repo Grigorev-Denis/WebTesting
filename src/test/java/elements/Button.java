@@ -11,9 +11,11 @@ import java.time.Duration;
 
 public class Button {
     private final SelenideElement buttonSelector;
-    public Button(SelenideElement button){
+    private String name;
+    public Button(String elementName ,SelenideElement button){
 
         this.buttonSelector= button;
+        this.name= elementName;
     }
 
     @Step("Проверить доступность кнопки")
@@ -24,13 +26,17 @@ public class Button {
 
     @Step("Кликаем на кнопку")
     public Button buttonClick(){
-        buttonSelector.shouldBe(Condition.visible, Duration.ofSeconds(4)).click();
+        buttonSelector.shouldBe(Condition.visible, Duration.ofSeconds(6)).click();
         return this;
     }
 
     @Step("Получить цвет кнопки")
     public String getColorOfButton(){
         return buttonSelector.getCssValue("fill");
+    }
+
+    public void buttonClickWithScroll(){
+        buttonSelector.scrollTo().click();
     }
 
 }
