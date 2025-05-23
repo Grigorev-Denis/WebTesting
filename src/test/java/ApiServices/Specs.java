@@ -22,12 +22,9 @@ import io.restassured.specification.ResponseSpecification;
                 .build();
     }
 
-
-    @Step("Проверка Статус {statusCode}")
-    public static ResponseSpecification checkStatusCode(Integer statusCode){
+    public static ResponseSpecification responeSpec(){
         return new ResponseSpecBuilder()
                 .log(LogDetail.ALL)
-                .expectStatusCode(statusCode)
                 .build();
     }
 }

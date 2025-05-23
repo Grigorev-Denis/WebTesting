@@ -2,10 +2,10 @@ package pojo;
 
 import lombok.*;
 @Builder
-@Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@With
 public class BookingInfo {
     private String firstname;
     private String lastname;
