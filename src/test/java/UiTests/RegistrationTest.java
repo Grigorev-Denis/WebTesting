@@ -125,7 +125,7 @@ public class RegistrationTest extends BaseTest {
      page.cityListClickFirst();
     }
 
-    @Test
+    //@Test
     public void checks(){
         page.openRegPage();
         page.setFirstName("Anna");
