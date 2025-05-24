@@ -57,7 +57,7 @@ public class Input {
         input.inputSelector.sendKeys(value);
     }
 
-    @Step("Получить цвет поля")
+    @Step("Проверить цвет поля")
     public String checkColor(String color){
         inputSelector.shouldBe(Condition.cssValue("border-color", color));
         return inputSelector.getCssValue("border-color");
@@ -66,5 +66,10 @@ public class Input {
     @Step("Кликнуть на поле")
     public void clickToInput(){
         inputSelector.click();
+    }
+
+    @Step("Снять фокус с поля")
+    public void escapeFromInput(){
+        inputSelector.shouldBe(Condition.visible, Duration.ofSeconds(waitElement)).sendKeys(Keys.ESCAPE);
     }
 }

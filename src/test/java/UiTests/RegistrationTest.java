@@ -33,42 +33,16 @@ public class RegistrationTest extends BaseTest {
 //        page.modalCloseWithEscape();
 //    }
 //
-//    @Test
-//    public void color (){
-//        Configuration.pageLoadTimeout= 60000;
-//        page.openRegPage();
-//        page.clickSubmit();
-//        page.checkColorRed(page.getFirstNameField());
-//
-//    }
+
 
    // @Test
     @DisplayName("Зарегистрировать студента(заполнены все поля)")
     @Owner("Григорьев Денис")
     @Description("Проверка регистрации студента при заполнении всех полей")
     @Tag("UI")
-    public void studentRegistryAllFields(){
-        Configuration.pageLoadTimeout= 60000;
-        page.openRegPage();
-        page.setFirstName("Anna");
-        page.setLastName("Ivanova");
-        page.setGenderFemale();
-        page.setMobileNumber("9847563456");
-        page.setBirthDate("10 October 1998");
-       // page.selectRandomSubject();
-        //page.selectHobbieSport();
-       // page.selectHobbieReading();
-       // page.selectHobbieMusic();
-       // page.sendPicture();
-        page.setCurrentAddress("Kazan");
-        page.dropDownStateClick();
-        page.stateListClickFirst();
-        page.dropDownCityClick();
-        page.cityListClickFirst();
-        page.clickSubmit();
-        page.modalIsVisible();
-        page.modalClose();
-    }
+
+
+
 //
 //    @Test
 //    @DisplayName("Проверка обязательности полей")
@@ -115,7 +89,6 @@ public class RegistrationTest extends BaseTest {
 //    }
     //@Test
     public void test() {
-    Configuration.pageLoadTimeout = 60000;
      page.openRegPage();
      page.dropDownStateClick();
      page.checkStatesList();
@@ -125,23 +98,31 @@ public class RegistrationTest extends BaseTest {
      page.cityListClickFirst();
     }
 
-    //@Test
+    @Test
     public void checks(){
         page.openRegPage();
-        page.setFirstName("Anna");
-        page.setLastName("Ivanova");
-        page.setGenderFemale();
-        page.setMobileNumber("9847563456");
-        page.setBirthDate("10 October 1998");
-        page.setCurrentAddress("Kazan");
+        page.setFirstName("Denis");
+        page.setLastName("Grigorev");
+        page.setGenderMale();
+        page.setMobileNumber("1234567890");
+        page.setSubjects("Maths");
+        page.setBirthDate("10 May 1990");
+        page.calendarIsVisible();
+        page.musicRadioSelect();
+        page.sportRadioSelect();
+        page.readingRadioSelect();
         page.dropDownStateClick();
         page.stateListClickFirst();
         page.dropDownCityClick();
         page.cityListClickFirst();
+        page.setCurrentAddress("Kazan");
+        page.uploadFile();
         page.clickSubmit();
         page.modalIsVisible();
         page.getFirstColumn();
         page.getSecondColumn();
+
+       // Selenide.sleep(6000000);
     }
 
 }
