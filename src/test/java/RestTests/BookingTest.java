@@ -5,7 +5,6 @@ import ApiServices.Booking;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
-import io.restassured.response.Response;
 import lombok.Setter;
 import org.junit.jupiter.api.*;
 import pojo.BookingInfoDates;
@@ -16,7 +15,7 @@ import java.time.LocalDate;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@DisplayName("Сервис 'CreateBooking'")
+@DisplayName("Сервис 'BOOKING'")
 public class BookingTest {
 
     private BookingInfo request = BookingInfo.builder()

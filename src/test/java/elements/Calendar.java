@@ -3,25 +3,24 @@ package elements;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
+import lombok.With;
 
 import java.time.Duration;
 
 import static Helpers.TheExpectant.waitElement;
 
-public class CheckBox {
+public class Calendar {
     private final SelenideElement selector;
     private String name;
 
-    public CheckBox(String name, SelenideElement element) {
+    public Calendar(String name, SelenideElement element) {
 
         this.selector = element;
         this.name = name;
     }
 
-
-    @Step("Кликнуть чек-бокс")
-    public void checkBoxClick(){
-        selector.shouldBe(Condition.enabled,Duration.ofSeconds(waitElement)).click();
+    @Step("Проверить отображение")
+    public void checkCalendarIsVisible(){
+        selector.shouldBe(Condition.visible, Duration.ofSeconds(waitElement));
     }
 }
-

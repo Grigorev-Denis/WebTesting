@@ -33,4 +33,11 @@ public class DropDown {
     public void dropDownEscape() {
         selector.sendKeys(Keys.ESCAPE);
     }
+
+    @Step("Проверить блокировку DropDown")
+    public void dropDownCheckBlock(){
+        selector.scrollTo().shouldBe(Condition.cssValue("background-color", "rgb(242, 242, 242)"));
+    }
 }
+
+
