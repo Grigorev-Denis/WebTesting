@@ -38,8 +38,6 @@ public class Table {
                 column.add(td.getText());
             }
         }
-
-        System.out.println(column);
         return column;
     }
 

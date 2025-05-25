@@ -19,19 +19,12 @@ public class Popup {
     }
 
     @Step("Проверить доступность модального окна")
-    public void visibilityCheck(){
+    public void visibilityCheck() {
         selector.shouldBe(Condition.visible, Duration.ofSeconds(waitElement));
     }
 
     @Step("Проверить, что модальное окно не отображается")
-    public void NotVisibilityCheck(){
+    public void NotVisibilityCheck() {
         selector.shouldBe(Condition.not(Condition.visible), Duration.ofSeconds(waitElement));
-    }
-
-    @Step("Закрыть модальное окно")
-    public void closeModalWithEscape(){
-        selector.shouldBe(Condition.visible, Duration.ofSeconds(waitElement));
-        selector.click();
-        selector.sendKeys(Keys.ESCAPE);
     }
 }

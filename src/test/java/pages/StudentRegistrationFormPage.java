@@ -13,6 +13,7 @@ import org.openqa.selenium.By;
 
 import java.io.File;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,10 @@ import static com.codeborne.selenide.Selenide.$x;
 public class StudentRegistrationFormPage {
     protected final String URL_STUDENT_REGFORM = "https://demoqa.com/automation-practice-form";
     protected final String COLOR_RED = "rgb(220, 53, 69)";
+    protected final List<String> expectedLebelList = List.of("Student Name", "Student Email", "Gender", "Mobile", "Date of Birth", "Subjects", "Hobbies"
+            , "Picture", "Address", "State and City");
+    @Getter
+    protected final String fileToUploadName = "photo.jpg"; // названия файла из скомпилированного файла
 
     protected final Input firstNameField = new Input("Поле ввода 'First Name'", $x(".//*[@placeholder=\"First Name\"]"));
     protected final Input lastNameField = new Input("Поле ввода 'Last Name'", $x(".//*[@placeholder=\"Last Name\"]"));
@@ -87,6 +92,10 @@ public class StudentRegistrationFormPage {
     public void mobileNumberFieldClick() {
         mobileNumberField.clickToInput();
     }
+    @Step("Очистить поле 'Mobile Number'")
+    public void cleanMobileNumberField(){
+        mobileNumberField.clearValue();
+    }
 
     @Step("Ввод значение '{value}' в поле 'Email'")
     public void setEmail(String value) {
@@ -126,39 +135,6 @@ public class StudentRegistrationFormPage {
     @Step("Нажать кнопку 'Submit'")
     public void clickSubmit() {
         buttonSubmit.buttonClickWithScroll();
-    }
-
-//    @Step("Проверить, что поле '{field.name}' подсвечено красным")
-//    public void checkColorRed(Input field) {
-//        String redColor = "rgb(220, 53, 69)";
-//        String color = field.checkColor(redColor);
-//        Assertions.assertEquals(redColor, color, "Цвет не соответствует");
-//    }
-
-//    @Step("Проверить, что поле '{field.name}' подсвечивается голубым при клике")
-//    public void checkColorBlue(Input field) {
-//        field.clickToInput();
-//        String blueColor = "rgb(128, 189, 255)";
-//        String color = field.checkColor(blueColor);
-//        Assertions.assertEquals(blueColor, color, "Цвет не соответствует");
-//    }
-
-//    @Step("Проверить, что поле '{field.name}' подсвечивается зеленым")
-//    public void checkColorGreen(Input field) {
-//        String greenColor = "rgb(40, 167, 69)";
-//        String color = field.checkColor(greenColor);
-//        Assertions.assertEquals(greenColor, color, "Цвет не соответствует");
-//    }
-
-
-    @Step("Проверить что появилось модальное окно результата регистрации")
-    public void modalIsVisible() {
-        submittingForm.visibilityCheck();
-    }
-
-    @Step("Проверить закрытие модального окна")
-    public void modalClose() {
-        closePopup.buttonClickWithScroll();
     }
 
     @Step("Нажать на выпадающий список 'State'")
@@ -218,11 +194,6 @@ public class StudentRegistrationFormPage {
     }
 
 
-    @Step("Получить все строки таблицы результата регистрации")
-    public void getAllRows(){
-        resultTableBody.getAllRows();
-    }
-
     @Step("Получить колонку 'Label'")
     public void getFirstColumn(){
         resultTableBody.getColumnByIndex(1);
@@ -238,6 +209,16 @@ public class StudentRegistrationFormPage {
         birthDateField.clickToInput();
         calendar.checkCalendarIsVisible();
         birthDateField.escapeFromInput();
+    }
+
+    @Step("Проверить что обязательные поля выделены красным, если не заполнены")
+    public void checkAllColorRed(){
+        firsNameCheckColorRed();
+        lastNameCheckColorRed();
+        mobileNumberCheckColorRed();
+        genderMaleCheckColorRed();
+        genderFemaleCheckColorRed();
+        genderOtherCheckColorRed();
     }
 
     @Step("Проверить, что поле 'First Name' выделено красным цветом")
@@ -275,11 +256,38 @@ public class StudentRegistrationFormPage {
         genderOther.checkColor(COLOR_RED);
     }
 
-    public void uploadFile(){
-        File fileToUpload = new File("src/test/resources/photo.jpg");
-        fileDownload.uploadFile(fileToUpload);
+    @Step("Загрузить файл {nameOfFile}")
+    public void uploadFile(String nameOfFile){
+        fileDownload.uploadFromClasspath(nameOfFile);
     }
 
+    @Step("Проверить что появилось модальное окно результата регистрации")
+    public void modalIsVisible() {
+        submittingForm.visibilityCheck();
+    }
+
+    @Step("Проверить что студент не зарегистрировался")
+    public void modalIsNotVisible() {
+        submittingForm.NotVisibilityCheck();
+    }
+
+    @Step("Проверить колонку 'Label' на соответствие макету")
+    public void checkLabelColumn(){
+        Assertions.assertEquals(expectedLebelList, resultTableBody.getColumnByIndex(1),
+                "Названия строк в колонке 'Label' не соответствуют макету");
+    }
+
+    @Step("Проверить колонку 'Values' На корректность заполнения")
+    public void checkValueColumn(List<String> dataEx){
+        Assertions.assertEquals(dataEx, resultTableBody.getColumnByIndex(2),"Данные введенные на форме " +
+                "отличаются от данных в таблице регистрации");
+    }
+
+    @Step("Проверить таблицу результата регистрации")
+    public void checkResult(List<String> dataEx){
+        checkLabelColumn();
+        checkValueColumn(dataEx);
+    }
 
 }
 

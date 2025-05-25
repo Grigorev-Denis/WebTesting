@@ -10,8 +10,11 @@ import org.junit.jupiter.api.*;
 import pojo.BookingInfoDates;
 import pojo.BookingInfo;
 import pojo.CreateBookingBodyResponse;
+import pojo.GetBookingsResponse;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -50,7 +53,7 @@ public class BookingTest {
     }
 
     @Test
-    @Order(2)
+    @Order(5)
     @DisplayName("Проверка метода GetBooking")
     @Owner("Григорьев Денис")
     @Description("Проверить, что метод возвращает информацию о бронировании по ID." +
@@ -59,13 +62,13 @@ public class BookingTest {
     @Tag("smoke")
     public void getBooking(){
         Allure.step("Проверить что получены данные о бронировании и статус-код = 200");
-            BookingInfo response = Booking.get(bookingId, 200);
+            BookingInfo response = Booking.getById(bookingId, 200);
         Assertions.assertEquals(request.toString(),response.toString(), "Полученное бронирование не " +
                 "соответствуют записи с ID"+ bookingId +".");
     }
 
     @Test
-    @Order(3)
+    @Order(6)
     @DisplayName("Проверка метода UpdateBooking")
     @Owner("Григорьев Денис")
     @Description("Проверить, что метод обновляет данные о бронировании и тело ответа включает информацию о бронировании." +
@@ -82,7 +85,7 @@ public class BookingTest {
     }
 
     @Test
-    @Order(4)
+    @Order(7)
     @DisplayName("Проверка метода DeleteBooking")
     @Owner("Григорьев Денис")
     @Description("Проверить, что метод удаляет данные о бронировании." +
@@ -97,7 +100,7 @@ public class BookingTest {
 
 
     @Test
-    @Order(5)
+    @Order(8)
     @DisplayName("Проверка метода UpdateBooking// Обновление несуществующей записи ")
     @Owner("Григорьев Денис")
     @Description("Проверить, что метод не обновит данные по ID, которого нет базе" +
@@ -113,7 +116,7 @@ public class BookingTest {
     }
 
     @Test
-    @Order(6)
+    @Order(9)
     @DisplayName("Проверка метода DeleteBooking// Удаление несуществующей записи")
     @Owner("Григорьев Денис")
     @Description("Проверить, что метод вернет 404 ошибку при попытке удалить запись которой нет в базе")
@@ -125,7 +128,7 @@ public class BookingTest {
     }
 
     @Test
-    @Order(7)
+    @Order(10)
     @DisplayName("Проверка метода UpdateBooking// Обновление авторизации ")
     @Owner("Григорьев Денис")
     @Description("Проверить, что метод вернет 403 ошибку при, условии что в заголовках нет токенаавторизации")
@@ -139,7 +142,7 @@ public class BookingTest {
     }
 
     @Test
-    @Order(8)
+    @Order(11)
     @DisplayName("Проверка метода DeleteBooking// Ошибка авторизации")
     @Owner("Григорьев Денис")
     @Description("Проверить, что метод вернет 403 ошибку при, условии что в заголовках нет токенаавторизации")
@@ -151,6 +154,64 @@ public class BookingTest {
     }
 
 
+    @Test
+    @Order(2)
+    @DisplayName("Проверка метода GetBookingIds без параметров")
+    @Owner("Григорьев Денис")
+    @Description("Проверить, что метод вернет массив со всеми ID. Ожидаемый статус код = 200")
+    @Tag("API")
+    @Tag("smoke")
+    public void getAllIds(){
+        List<GetBookingsResponse> response = Booking.getAllId(200);
+        List<Integer> bookingIds = new ArrayList<>();
+        for (GetBookingsResponse res: response){
+            bookingIds.add(res.getBookingid());
+        }
+        long uniqueIdsCount = bookingIds.stream().distinct().count();
+        Allure.step("Проверка, что массив в ответе не пустой");
+        Assertions.assertFalse(response.isEmpty(),"Список ID пустой");
+        Allure.step("Проверка, что значения полученных ID уникальные");
+        Assertions.assertEquals(uniqueIdsCount, bookingIds.size(), "В списке полученных ID есть неуникальные значения");
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("Проверка метода GetBookingIds c фильтрацией по Имени и Фамилии")
+    @Owner("Григорьев Денис")
+    @Description("Проверить, что метод вернет ID бронирования при фильтрации по Имя/Фамилия. Ожидаемый статус код = 200")
+    @Tag("API")
+    @Tag("smoke")
+    public void getByName(){
+        List<GetBookingsResponse> response = Booking.getByName(request.getFirstname(),request.getLastname(),200);
+        List<Integer> bookingIds = new ArrayList<>();
+        for (GetBookingsResponse res: response){
+            bookingIds.add(res.getBookingid());
+        }
+        Allure.step("Проверка, что массив в ответе не пустой");
+        Assertions.assertFalse(response.isEmpty(),"Список ID пустой");
+        Allure.step("Проверить, что в ответе есть ID созданного бронирования");
+        Assertions.assertTrue(bookingIds.contains(bookingId));
+    }
+
+    @Test  // Для ошибки в Allure
+    @Order(4)
+    @DisplayName("Проверка метода GetBookingIds c фильтрацией по checkin/checkout")
+    @Owner("Григорьев Денис")
+    @Description("Проверить, что метод вернет ID бронирования при фильтрации по checkin/checkout. Ожидаемый статус код = 200")
+    @Tag("API")
+    @Tag("smoke")
+    public void getByDates(){
+        List<GetBookingsResponse> response = Booking.getByDate(request.getBookingdates().getCheckin().toString()
+                ,request.getBookingdates().getCheckout().toString(),200);
+        List<Integer> bookingIds = new ArrayList<>();
+        for (GetBookingsResponse res: response){
+            bookingIds.add(res.getBookingid());
+        }
+        Allure.step("Проверка, что массив в ответе не пустой");
+        Assertions.assertFalse(response.isEmpty(),"Список ID пустой");
+        Allure.step("Проверить, что в ответе есть ID созданного бронирования");
+        Assertions.assertTrue(bookingIds.contains(bookingId), "Не найден ID по фильтру даты");
+    }
 
 
 }
