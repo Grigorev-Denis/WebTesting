@@ -42,7 +42,7 @@ public class Input {
     }
 
     @Step("Стереть содержимое поля")
-    public void clearValue(String value) {
+    public void clearValue() {
         inputSelector.sendKeys(Keys.CONTROL + "a");
         inputSelector.sendKeys(Keys.DELETE);
     }
